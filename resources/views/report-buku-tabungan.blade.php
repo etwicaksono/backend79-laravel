@@ -1,4 +1,4 @@
-@extends('layout.app',["title"=>"Report Buku Tabungan"])
+@extends('layout.app',["title"=>"Report Buku Tabungan","csrf"=>true])
 
 @section('content')
 <p class="h1 my-5">Report Buku Tabungan</p>
@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-
+@csrf
 <table id="main-table" class="table table-striped" style="width:100%">
     <thead>
         <tr>
@@ -117,6 +117,9 @@
 
         if (user != null && start != "" && end != "") {
             $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: baseurl + "cetak-tabungan",
                 data: {
                     start: start,
