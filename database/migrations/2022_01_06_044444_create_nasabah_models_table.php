@@ -13,9 +13,12 @@ class CreateNasabahModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('nasabah_models', function (Blueprint $table) {
-            $table->id();
+        Schema::create('nasabah', function (Blueprint $table) {
+            $table->increments("account_id");
+            $table->string("name");
+            $table->string("address");
             $table->timestamps();
+            $table->engine = "InnoDB";
         });
     }
 

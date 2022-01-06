@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class NasabahModel extends Model
 {
-    use HasFactory;
+    protected $table = "nasabah";
+    protected $fillable = ["name", "address"];
 }
