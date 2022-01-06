@@ -1,4 +1,4 @@
-@extends('layout.app',["title"=>"Customer Data"])
+@extends('layout.app',["title"=>"Customer Data","csrf"=>true])
 
 @section("content")
 <p class="h1 my-5">Customer Data</p>
@@ -71,82 +71,8 @@
             $(".error-text").addClass("d-none")
         })
 
-        // klik submit
-        $(".btn-submit").on("click", function() {
-            let name = $("#name").val()
-            let address = $("#address").val()
-
-            if (name == "") {
-                $(".error-name").removeClass("d-none")
-                return false
-            } else {
-                $(".error-name").addClass("d-none")
-            }
-
-            if (address == "") {
-                $(".error-address").removeClass("d-none")
-                return false
-            } else {
-                $(".error-address").addClass("d-none")
-            }
-
-            $.ajax({
-                url: baseurl + "nasabah",
-                method: "post",
-                dataType: "json",
-                data: {
-                    name: name,
-                    address: address
-                },
-                error: function(err) {
-                    console.log(err)
-                },
-                success: function(res) {
-                    console.log(res)
-                    updateTable()
-                    $("#nasabahModal").modal("hide")
-                }
-            })
-        })
-
-
-
-        /* function updateTable() {
-            $.ajax({
-                url: baseurl + "nasabah",
-                type: "get",
-                dataType: "json",
-                error: function(err) {
-                    console.log("error")
-                    console.log(err)
-                },
-                success: function(res) {
-                    let result = ""
-
-                    if (res.length == 0) {
-                        $(".no-data").removeClass("d-none")
-                    } else {
-                        $(".no-data").addClass("d-none")
-                    }
-
-                    $.each(res, function(key, val) {
-                        console.log(val)
-                        result += `
-                        <tr>
-                            <td>` + (key + 1) + `</td>
-                            <td>` + val.account_id + `</td>
-                            <td>` + val.name + `</td>
-                            <td>` + val.address + `</td>
-                        </tr>
-                        `
-                    })
-                    $("#main-table tbody").html(result)
-                }
-            })
-        }
-        updateTable() */
-
-        $('#main-table').DataTable({
+        // DataTable
+        let table = $('#main-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{!! route('nasabah.data') !!}', // memanggil route yang menampilkan data json
@@ -167,12 +93,54 @@
                         name: 'address'
                     }
                 ]
-            });
+            })
+
+        // klik submit
+        $(".btn-submit").on("click", function() {
+            let name = $("#name").val()
+            let address = $("#address").val()
+
+            if (name == "") {
+                $(".error-name").removeClass("d-none")
+                return false
+            } else {
+                $(".error-name").addClass("d-none")
+            }
+
+            if (address == "") {
+                $(".error-address").removeClass("d-none")
+                return false
+            } else {
+                $(".error-address").addClass("d-none")
+            }
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: baseurl + "nasabah",
+                method: "post",
+                dataType: "json",
+                data: {
+                    name: name,
+                    address: address
+                },
+                error: function(err) {
+                    console.log(err)
+                },
+                success: function(res) {
+                    // console.log(res)
+                    table.ajax.reload()
+                    $("#nasabahModal").modal("hide")
+                }
+            })
+        })
+
+        
     });
 </script>
 @endpush
 
 @push('css')
-<link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 @endpush

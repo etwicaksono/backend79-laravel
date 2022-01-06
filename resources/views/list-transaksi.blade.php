@@ -1,4 +1,4 @@
-@extends('layout.app',["title"=>"Data Transaksi"])
+@extends('layout.app',["title"=>"Data Transaksi","csrf"=>true])
 
 @section('content')
 <p class="h1 my-5">Transaction Data</p>
@@ -139,6 +139,9 @@
         }
 
         $.ajax({
+            headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
             url: baseurl + "transaksi",
             method: "post",
             dataType: "json",

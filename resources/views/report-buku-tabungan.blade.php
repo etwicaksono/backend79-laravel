@@ -157,6 +157,9 @@
                     $("#main-table tbody").html(result)
                 }
             })
+        }else if(user == null && start != "" && end != ""){
+            $("#main-table tbody").html("")
+            $(".no-data").addClass("d-none")
         }
     }
 });
