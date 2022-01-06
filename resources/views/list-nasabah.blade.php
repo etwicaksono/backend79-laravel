@@ -57,6 +57,9 @@
 @endsection
 
 @push('js')
+
+<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(document).ready(function() {
         let baseurl = "{{url("/")}}/"
@@ -108,7 +111,7 @@
 
 
 
-        function updateTable() {
+        /* function updateTable() {
             $.ajax({
                 url: baseurl + "nasabah",
                 type: "get",
@@ -141,7 +144,35 @@
                 }
             })
         }
-        updateTable()
+        updateTable() */
+
+        $('#main-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('nasabah.data') !!}', // memanggil route yang menampilkan data json
+                columns: [{ // mengambil & menampilkan kolom sesuai tabel database
+                        data: 'account_id',
+                        name: 'account_id'
+                    },
+                    {
+                        data: 'account_id',
+                        name: 'account_id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    }
+                ]
+            });
     });
 </script>
+@endpush
+
+@push('css')
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 @endpush

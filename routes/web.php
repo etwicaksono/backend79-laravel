@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NasabahController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,3 +48,5 @@ $router->post("transaksi", "TransaksiController@store");
 $router->get("cek-poin", "TransaksiController@show_point");
 
 $router->post("cetak-tabungan", "TransaksiController@print_tabungan");
+
+Route::get("json", [NasabahController::class, "json"])->name("nasabah.data");

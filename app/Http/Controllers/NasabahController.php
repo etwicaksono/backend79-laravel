@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NasabahModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class NasabahController extends Controller
 {
@@ -47,5 +48,10 @@ class NasabahController extends Controller
             "status" => "OK",
             "latest_data" => NasabahModel::orderBy("account_id", "desc")->first()
         ], 201);
+    }
+
+    public function json()
+    {
+        return DataTables::of(NasabahModel::query())->toJson();
     }
 }
