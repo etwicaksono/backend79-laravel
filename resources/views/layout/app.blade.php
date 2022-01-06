@@ -30,21 +30,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->segment(1)==""||request()->segment(1)=="
-                                customer"?"active":"") }}" aria-current="page" href="{{ url("customer")
+                            <a class="nav-link {{ (request()->segment(1)==""||request()->segment(1)==trim("
+                                customer")?"active":"") }}" aria-current="page" href="{{ url("customer")
                                 }}">Customer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->segment(1)==" transaction"?"active":"") }}"
+                            <a class="nav-link {{ (request()->segment(1)== trim(" transaction")?"active":"") }}"
                                 aria-current="page" href="{{ url("transaction") }}">Transaction</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->segment(1)==" tabungan"?"active":"") }}"
+                            <a class="nav-link {{ (request()->segment(1)== trim(" tabungan")?"active":"") }}"
                                 aria-current="page" href="{{ url("tabungan") }}">Report Tabungan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->segment(1)==" poin"?"active":"") }}" aria-current="page"
-                                href="{{ url("poin") }}">Poin</a>
+                            <a class="nav-link {{ (request()->segment(1)== trim(" poin")?"active":"") }}"
+                                aria-current="page" href="{{ url("poin") }}">Poin</a>
                         </li>
                     </ul>
                 </div>
