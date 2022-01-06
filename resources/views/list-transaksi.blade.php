@@ -153,9 +153,10 @@
                 transaction_date: transaction_date,
             },
             error: function(err) {
-                console.log(err)
+                console.log(err.status)
             },
             success: function(res) {
+                console.log(res.status)
                 console.log(res)
                 updateTable()
                 $("#nasabahModal").modal("hide")

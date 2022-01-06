@@ -129,7 +129,7 @@
                     console.log(err)
                 },
                 success: function(res) {
-                    // console.log(res)
+                    console.log(res)
                     table.ajax.reload()
                     $("#nasabahModal").modal("hide")
                 }
