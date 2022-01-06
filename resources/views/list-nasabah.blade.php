@@ -6,8 +6,8 @@
 <div class="row mb-3">
     <div class="col-12">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-end btn-modal-trigger" data-bs-toggle="modal"
-            data-bs-target="#nasabahModal">
+        <button type="button" class="btn btn-primary float-end btn-modal-trigger" data-toggle="modal"
+            data-target="#nasabahModal">
             Add Customer
         </button>
     </div>

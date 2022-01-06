@@ -26,7 +26,7 @@ class NasabahController extends Controller
                 ->orderBy("name", "asc")
                 ->get();
 
-            \dd(NasabahModel::orderBy("name", "asc")->where("name", "like", "%" . $request->search . "%")->get());
+            // \dd(NasabahModel::orderBy("name", "asc")->where("name", "like", "%" . $request->search . "%")->get());
         } else {
             $nasabah = NasabahModel::orderBy("name", "asc")->get()->take(10);
         }
