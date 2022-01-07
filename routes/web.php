@@ -38,15 +38,15 @@ $router->get('poin', function () {
     return view("show-point");
 });
 
-$router->get("nasabah", "NasabahController@showAllNasabah");
-$router->get("select-nasabah", "NasabahController@nasabahForSelect2");
-$router->post("nasabah", "NasabahController@insertNasabah");
+$router->get("nasabah", [NasabahController::class, "showAllNasabah"]);
+$router->get("select-nasabah", [NasabahController::class, "nasabahForSelect2"]);
+$router->post("nasabah", [NasabahController::class, "insertNasabah"]);
 
-$router->get("transaksi", "TransaksiController@index");
-$router->post("transaksi", "TransaksiController@store");
+$router->get("transaksi", [TransaksiController::class, "index"]);
+$router->post("transaksi", [TransaksiController::class, "store"]);
 
-$router->get("cek-poin", "TransaksiController@show_point");
+$router->get("cek-poin", [TransaksiController::class, "show_point"]);
 
-$router->post("cetak-tabungan", "TransaksiController@print_tabungan");
+$router->post("cetak-tabungan", [TransaksiController::class, "print_tabungan"]);
 
 Route::get("json", [NasabahController::class, "json"])->name("nasabah.data");
