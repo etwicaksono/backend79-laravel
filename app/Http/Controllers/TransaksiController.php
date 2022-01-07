@@ -17,11 +17,15 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         try {
-            $transaction = DB::table("transaksi AS t")
-                ->leftJoin("nasabah AS n", "t.user_id", "=", "n.account_id")
-                ->select("n.account_id", "n.name", "t.transaction_date", "t.description", "t.type", "t.amount")
-                ->where("account_id", $request->user)
-                ->get();
+            // $transaction = DB::table("transaksi AS t")
+            //     ->leftJoin("nasabah AS n", "t.user_id", "=", "n.account_id")
+            //     ->select("n.account_id", "n.name", "t.transaction_date", "t.description", "t.type", "t.amount")
+            //     ->where("account_id", $request->user)
+            //     ->get();
+
+            $transaction = TransaksiModel::leftJoin("nasabah AS n", "n.account_id", "=", "transaksi.user_id")
+                ->where("n.account_id", $request->user)
+                ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]);
 
             foreach ($transaction as $tr) {
                 $tr->transaction_date = \date("Y-m-d", \strtotime($tr->transaction_date));
@@ -122,14 +126,21 @@ class TransaksiController extends Controller
     public function show_point()
     {
         try {
-            $transaction = DB::table("transaksi AS t")
+            /* $transaction = DB::table("transaksi AS t")
                 ->leftJoin("nasabah AS n", "t.user_id", "=", "n.account_id")
                 ->select("n.account_id", "n.name", "t.transaction_date", "t.description", "t.type", "t.amount")
                 ->where("t.type", "=", "D")
                 ->whereRaw("TRIM(LOWER(t.description)) LIKE?", ["beli pulsa%"])
                 ->orWhere("t.type", "=", "D")
                 ->whereRaw("TRIM(LOWER(t.description)) LIKE?", ["bayar listrik%"])
-                ->get();
+                ->get(); */
+
+            $transaction = TransaksiModel::leftJoin("nasabah AS n", "n.account_id", "=", "transaksi.user_id")
+                ->where("transaksi.type", "=", "D")
+                ->whereRaw("TRIM(LOWER(transaksi.description)) LIKE?", ["beli pulsa%"])
+                ->orWhere("transaksi.type", "=", "D")
+                ->whereRaw("TRIM(LOWER(transaksi.description)) LIKE?", ["bayar listrik%"])
+                ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]);
 
             foreach ($transaction as $tr) {
                 $tr->point = get_point($tr->description, $tr->amount);
@@ -162,13 +173,21 @@ class TransaksiController extends Controller
         try {
             $start = date_parser($request->start) . " 00:00:00";
             $end = date_parser($request->end) . " 23:59:59";
-            $transaction = DB::table("transaksi AS t")
+            /* $transaction = DB::table("transaksi AS t")
                 ->leftJoin("nasabah AS n", "t.user_id", "=", "n.account_id")
                 ->select("n.account_id", "n.name", "t.transaction_date", "t.description", "t.type", "t.amount")
                 ->where("t.transaction_date", ">=", $start)
                 ->where("t.transaction_date", "<=", $end)
                 ->where("account_id", $request->user)
-                ->get();
+                ->get(); */
+
+            $transaction = TransaksiModel::leftJoin("nasabah AS n", "n.account_id", "=", "transaksi.user_id")
+                ->where("n.account_id", $request->user)
+                ->where("transaksi.transaction_date", ">=", $start)
+                ->where("transaksi.transaction_date", "<=", $end)
+                ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]);
+
+            // $transaction = TransaksiModel::all()->nasabah();
 
             return \response()->json($transaction, http_response_code());
         } catch (Exception $e) {

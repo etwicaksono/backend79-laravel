@@ -12,6 +12,6 @@ class TransaksiModel extends Model
 
     public function nasabah()
     {
-        return $this->belongsTo(NasabahModel::class);
+        return $this->belongsTo(NasabahModel::class, "user_id", "account_id");
     }
 }

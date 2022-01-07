@@ -31,12 +31,12 @@ class NasabahController extends Controller
     {
         try {
             if ($request->search != "") {
-                $nasabah = DB::table('nasabah')
-                    ->where("name", "like", "%" . $request->search . "%")
-                    ->orderBy("name", "asc")
-                    ->get();
+                // $nasabah = DB::table('nasabah')
+                //     ->where("name", "like", "%" . $request->search . "%")
+                //     ->orderBy("name", "asc")
+                //     ->get();
 
-                \dd(NasabahModel::orderBy("name", "asc")->where("name", "like", "%" . $request->search . "%")->get());
+                $nasabah = NasabahModel::orderBy("name", "asc")->where("name", "like", "%" . $request->search . "%")->get();
             } else {
                 $nasabah = NasabahModel::orderBy("name", "asc")->get()->take(10);
             }

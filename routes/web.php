@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NasabahController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 /*
