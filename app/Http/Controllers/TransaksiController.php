@@ -181,13 +181,17 @@ class TransaksiController extends Controller
                 ->where("account_id", $request->user)
                 ->get(); */
 
-            $transaction = TransaksiModel::leftJoin("nasabah AS n", "n.account_id", "=", "transaksi.user_id")
+            /*  $transaction = TransaksiModel::leftJoin("nasabah AS n", "n.account_id", "=", "transaksi.user_id")
                 ->where("n.account_id", $request->user)
                 ->where("transaksi.transaction_date", ">=", $start)
                 ->where("transaksi.transaction_date", "<=", $end)
-                ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]);
+                ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]); */
 
-            // $transaction = TransaksiModel::all()->nasabah();
+            $transaction = TransaksiModel::with("nasabah")
+                ->where("nasabah.account_id", $request->user)
+                ->where("transaksi.transaction_date", ">=", $start)
+                ->where("transaksi.transaction_date", "<=", $end)
+                ->get();
 
             return \response()->json($transaction, http_response_code());
         } catch (Exception $e) {
