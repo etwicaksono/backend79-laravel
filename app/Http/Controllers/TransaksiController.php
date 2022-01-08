@@ -187,7 +187,7 @@ class TransaksiController extends Controller
                 ->where("transaksi.transaction_date", "<=", $end)
                 ->get(["n.account_id", "n.name", "transaksi.transaction_date", "transaksi.description", "transaksi.type", "transaksi.amount"]); */
 
-            $transaction = TransaksiModel::with("nasabah")
+            $transaction = TransaksiModel::nasabah()
                 ->where("nasabah.account_id", $request->user)
                 ->where("transaksi.transaction_date", ">=", $start)
                 ->where("transaksi.transaction_date", "<=", $end)
